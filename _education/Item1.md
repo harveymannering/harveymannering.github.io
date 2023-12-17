@@ -2,6 +2,6 @@
 degree: PhD in Computer Science
 institute: University of Southamtpon
 duration: 2024 - Present
-excerpt: ...
+excerpt:
 order: 3
 ---

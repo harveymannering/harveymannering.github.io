@@ -27,7 +27,7 @@ layout: default
     <p class="ap-subtitle">{{site.collection_option['publications']['label']}}</p>
     {% for publication in site.publications reversed %}
     <div class="ap-publication">
-        <a class="ap-publication-title" href="{{publication.url}}">{{publication.title}}</a>
+        <a class="ap-publication-title" href="{{publication.pub-url}}">{{publication.title}}</a>
         <p class="ap-publication-year">{{publication.year}}</p>
         <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
     </div>
@@ -46,9 +46,8 @@ layout: default
         <p class="ap-project-year">{{project.year}}</p>
         <p class="ap-project-excerpt">{{project.excerpt}}</p>
         <p class="ap-project-tags">
-            {% for tag in project.tags %}
-            <span class="ap-project-chip">{{tag}}</span>
-            {% endfor %}
+            <a href="{{project.tag1link}}"><span class="ap-project-chip">{{project.tag1}}</span></a>
+            <a href="{{project.tag2link}}"><span class="ap-project-chip">{{project.tag2}}</span></a>
         </p>
     </div>
     {% endfor %}
