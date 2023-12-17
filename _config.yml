@@ -80,8 +80,6 @@ collection_option:
 navigation:
 - title: About
   url: /
-- title: Contact
-  url: /contact.html
 - title: CV
   url: /Research_Resume.pdf
 
