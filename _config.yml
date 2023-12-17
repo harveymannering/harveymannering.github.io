@@ -1,9 +1,9 @@
-name: Si Xu
-tagline: PhD Candidate at UCL
-career-objective: I am currently a PhD candidate at Centre for Research & Analysis of Migration (CReAM), UCL, London, UK. My supervisors are ... My PhD study is supported by ... Before joining UCL, I received my Master degree from Duke University and my Bachelor Degree from Central University of Finance and Economics. 
+name: Harvey Mannering
+tagline: PhD Candidate at University of Southampton
+career-objective: I am currently a PhD candidate in the Vision, Learning and Control (VLC) group at the University of Southampton. My supervisors are Zhiwu Huang and Adam Prugel-Bennett. Before starting my PhD, I received my Master degree from UCL, my Bachelor Degree from University of Southampton, and spent four years in industry as a software developer. 
 color-theme: red # red or blue
 avatar-filename: avatar.png # Change to your avatar's filename
-url: academicportfolio.github.io
+url: harveymannering.github.io
 baseurl: /
 paginate: 5
 paginate_path: "/blog/page:num/"
@@ -12,13 +12,13 @@ paginate_path: "/blog/page:num/"
 social:
   email: 
     visibility: true
-    mail: si.xu.20@ucl.ac.uk
+    mail: hgm1g14@soton.ac.uk
   github: 
-    visibility: false
-    handle: arnobk
+    visibility: true
+    handle: harveymannering
   linkedin: 
     visibility: true
-    handle: si-xu-621802225
+    handle: harvey-mannering-bba308179
   WeChat: 
     visibility: false
     handle: arnobdotme
@@ -83,7 +83,7 @@ navigation:
 - title: Contact
   url: /contact
 - title: CV
-  url: /statesboro-blues.pdf
+  url: /Research_Resume.pdf
 
 include:
   - _pages
