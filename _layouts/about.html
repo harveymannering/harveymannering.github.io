@@ -20,32 +20,16 @@ layout: default
 </div>
 {% endif %}
 
-{% if site.collection_option['education']['visibility'] == true %}
+{% if site.collection_option['publications']['visibility'] == true %}
 <div class="ap-line"></div>
-<!-- EDUCATION -->
+<!-- PUBLICATIONS -->
 <div class="ap-block">
-    <p class="ap-subtitle">{{site.collection_option['education']['label']}}</p>
-    {% for education in site.education %}
-    <div class="ap-education">
-        <p class="ap-education-degree">{{education.degree}}</p>
-        <p class="ap-education-institute">{{education.institute}}</p>
-        <p class="ap-education-year">{{education.duration}}</p>
-        <p class="ap-education-excerpt">{{education.excerpt}}</p>
-    </div>
-    {% endfor %}
-
-</div>
-{% endif %}
-
-{% if site.collection_option['skills']['visibility'] == true %}
-<div class="ap-line"></div>
-<!-- SKILLS -->
-<div class="ap-block">
-    <p class="ap-subtitle">{{site.collection_option['skills']['label']}}</p>
-    {% for skill in site.skills %}
-    <div class="ap-skill">
-        <p class="ap-skill-category">{{skill.category}}</p>
-        <p class="ap-skill-details">{{skill.details}}</p>
+    <p class="ap-subtitle">{{site.collection_option['publications']['label']}}</p>
+    {% for publication in site.publications reversed %}
+    <div class="ap-publication">
+        <a class="ap-publication-title" href="{{publication.url}}">{{publication.title}}</a>
+        <p class="ap-publication-year">{{publication.year}}</p>
+        <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
     </div>
     {% endfor %}
 </div>
@@ -72,16 +56,32 @@ layout: default
 </div>
 {% endif %}
 
-{% if site.collection_option['publications']['visibility'] == true %}
+{% if site.collection_option['education']['visibility'] == true %}
 <div class="ap-line"></div>
-<!-- PUBLICATIONS -->
+<!-- EDUCATION -->
 <div class="ap-block">
-    <p class="ap-subtitle">{{site.collection_option['publications']['label']}}</p>
-    {% for publication in site.publications reversed %}
-    <div class="ap-publication">
-        <a class="ap-publication-title" href="{{publication.url}}">{{publication.title}}</a>
-        <p class="ap-publication-year">{{publication.year}}</p>
-        <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
+    <p class="ap-subtitle">{{site.collection_option['education']['label']}}</p>
+    {% for education in site.education %}
+    <div class="ap-education">
+        <p class="ap-education-degree">{{education.degree}}</p>
+        <p class="ap-education-institute">{{education.institute}}</p>
+        <p class="ap-education-year">{{education.duration}}</p>
+        <p class="ap-education-excerpt">{{education.excerpt}}</p>
+    </div>
+    {% endfor %}
+
+</div>
+{% endif %}
+
+{% if site.collection_option['skills']['visibility'] == true %}
+<div class="ap-line"></div>
+<!-- SKILLS -->
+<div class="ap-block">
+    <p class="ap-subtitle">{{site.collection_option['skills']['label']}}</p>
+    {% for skill in site.skills %}
+    <div class="ap-skill">
+        <p class="ap-skill-category">{{skill.category}}</p>
+        <p class="ap-skill-details">{{skill.details}}</p>
     </div>
     {% endfor %}
 </div>
