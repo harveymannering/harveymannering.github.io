@@ -2,7 +2,8 @@
 layout: default
 ---
 <div class="ap-career-objective">
-    {{site.career-objective}}
+    I am currently a PhD candidate in the Vision, Learning and Control (VLC) group at the University of Southampton. My supervisors are <a href="https://zhiwu-huang.github.io/">Zhiwu Huang</a> and <a href="https://www.southampton.ac.uk/people/5wy7fh/professor-adam-prugel-bennett">Adam Prugel-Bennett</a>. Before starting my PhD, I received my Master degree from UCL, my Bachelor Degree from University of Southampton, and spent four years in industry as a software developer. 
+
 </div>
 
 {% if site.collection_option['experience']['visibility'] == true %}
@@ -24,6 +25,7 @@ layout: default
 <div class="ap-line"></div>
 <!-- PUBLICATIONS -->
 <div class="ap-block">
+    <img src="{{project.pub-image}}" alt="" width="200" height="200" id="hp"/>
     <p class="ap-subtitle">{{site.collection_option['publications']['label']}}</p>
     {% for publication in site.publications reversed %}
     <div class="ap-publication">
