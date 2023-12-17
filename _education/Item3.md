@@ -1,7 +1,7 @@
 ---
-degree: BA Economics
-institute: Central University of Finance and Economics
-duration: 2014 - 2018
-excerpt: ...
+degree: BSc Computer Science
+institute: University of Southamtpon
+duration: 2014 - 2017
+excerpt: 
 order: 1
 ---
