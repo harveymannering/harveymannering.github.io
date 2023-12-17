@@ -1,9 +1,9 @@
 ---
 title: Contact
 layout: default
-permalink: "/contact"
+permalink: "/contact.html"
 ---
 
 # Contact Me
 
-{% include contact-form.html %}
+<h1>Test</h1>
