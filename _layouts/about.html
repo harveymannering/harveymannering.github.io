@@ -25,10 +25,10 @@ layout: default
 <div class="ap-line"></div>
 <!-- PUBLICATIONS -->
 <div class="ap-block">
-    <img src="{{project.pub-image}}" alt="" width="200" height="200" id="hp"/>
     <p class="ap-subtitle">{{site.collection_option['publications']['label']}}</p>
     {% for publication in site.publications reversed %}
     <div class="ap-publication">
+        <img src="{{project.pub-image}}" alt="" width="150" height="150" id="hp"/>
         <a class="ap-publication-title" href="{{publication.pub-url}}">{{publication.title}}</a>
         <p class="ap-publication-year">{{publication.year}}</p>
         <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
