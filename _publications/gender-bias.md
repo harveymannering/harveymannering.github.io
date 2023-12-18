@@ -9,7 +9,7 @@ tag1visible: true
 tag1: GitHub
 tag1link: https://github.com/harveymannering/Text-to-Image-Bias
 tag2visible: true
-tag2: ...
-tag2link: ...
+tag2: HuggingFace
+tag2link: https://huggingface.co/harveymannering/xfetus-ddpm-v2
 ---
 

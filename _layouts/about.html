@@ -33,10 +33,10 @@ layout: default
         <p class="ap-publication-year">{{publication.year}}</p>
         <!--<p class="ap-publication-excerpt">{{publication.excerpt}}</p>-->
         {% if {{publication.tag1visible}} == true %}
-            <a href="{{publication.tag1link}}"><span class="ap-project-chip">{{publication.tag1}}</span></a>
+            <a href="{{publication.tag1link}}"><span class="ap-publication-chip">{{publication.tag1}}</span></a>
         {% endif %}
         {% if {{publication.tag2visible}} == true %}
-            <a href="{{publication.tag2link}}"><span class="ap-project-chip">{{publication.tag2}}</span></a>
+            <a href="{{publication.tag2link}}"><span class="ap-publication-chip">{{publication.tag2}}</span></a>
         {% endif %}
     </div>
     {% endfor %}
