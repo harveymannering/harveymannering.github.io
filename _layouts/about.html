@@ -30,7 +30,8 @@ layout: default
     <div class="ap-publication">
         <img src="{{publication.pub-image}}" alt="" width="150" height="150" id="hp"/>
         <a class="ap-publication-title" href="{{publication.pub-url}}">{{publication.title}}</a>
-        <p class="ap-publication-year">{{publication.year}}</p>
+        <p class="ap-publication-year"></p>
+        <!--<p class="ap-publication-year">{{publication.year}}</p>-->
         <!--<p class="ap-publication-excerpt">{{publication.excerpt}}</p>-->
         {% if {{publication.tag1visible}} == true %}
             <a href="{{publication.tag1link}}"><span class="ap-publication-chip">{{publication.tag1}}</span></a>
