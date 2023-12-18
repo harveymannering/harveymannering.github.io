@@ -29,11 +29,14 @@ layout: default
     {% for publication in site.publications reversed %}
     <div class="ap-publication">
         <img src="{{publication.pub-image}}" alt="" width="150" height="150" id="hp"/>
-        <a class="ap-publication-title" href="{{publication.pub-url}}">{{publication.title}}</a>
+        <a class="ap-publication-excerpt" href="{{publication.pub-url}}">{{publication.title}}</a>
         <p class="ap-publication-year">{{publication.year}}</p>
         <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
         {% if {{publication.tag1visible}} == true %}
-            <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
+            <a href="{{project.tag1link}}"><span class="ap-project-chip">{{project.tag1}}</span></a>
+        {% endif %}
+        {% if {{publication.tag2visible}} == true %}
+            <a href="{{project.tag2link}}"><span class="ap-project-chip">{{project.tag2}}</span></a>
         {% endif %}
     </div>
     {% endfor %}

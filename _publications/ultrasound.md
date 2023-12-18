@@ -5,8 +5,11 @@ excerpt: The results of this work illustrate the potential of GAN-based and diff
 pub-image: https://cdn-uploads.huggingface.co/production/uploads/6349716695ab8cce385f450e/RArVBPLLxPX_5rqSzXnp9.png
 pub-url: https://arxiv.org/abs/2304.03941
 comments: false
-tag1visible: false
+tag1visible: true
 tag1: GitHub
-tag1link: https://github.com/harveymannering/Text-to-Image-Bias
+tag1link: https://github.com/budai4medtech/midl2023
+tag2visible: false
+tag2: ...
+tag2link: ...
 ---
 
