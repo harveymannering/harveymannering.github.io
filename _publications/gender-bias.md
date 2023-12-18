@@ -8,7 +8,7 @@ comments: false
 tag1visible: true
 tag1: GitHub
 tag1link: https://github.com/harveymannering/Text-to-Image-Bias
-tag2visible: true
+tag2visible: false
 tag2: HuggingFace
 tag2link: https://huggingface.co/harveymannering/xfetus-ddpm-v2
 ---
