@@ -32,6 +32,9 @@ layout: default
         <a class="ap-publication-title" href="{{publication.pub-url}}">{{publication.title}}</a>
         <p class="ap-publication-year">{{publication.year}}</p>
         <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
+        {% if {{publication.tag1visible}} == true %}
+            <p class="ap-publication-excerpt">{{publication.excerpt}}</p>
+        {% endif %}
     </div>
     {% endfor %}
 </div>
