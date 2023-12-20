@@ -52,7 +52,7 @@ layout: default
     <p class="ap-subtitle">{{site.collection_option['projects']['label']}}</p>
     {% for project in site.projects reversed %}
     <div class="ap-project">
-        <a class="ap-project-title" href="{{project.url}}">{{project.title}}</a>
+        <a class="ap-project-title" href="{{project.project-url}}">{{project.title}}</a>
         <p class="ap-project-year">{{project.year}}</p>
         <p class="ap-project-excerpt">{{project.excerpt}}</p>
         <p class="ap-project-tags">
