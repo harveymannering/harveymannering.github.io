@@ -3,7 +3,7 @@ title: Smith, D., Mannering, H. and Marcu, A., Functional Alignment Can Mislead 
 year: 2025
 excerpt: Informational similarity must be accounted for when comparing models; model stitching does not do this.
 pub-image: https://img.itch.zone/aW1nLzExNjg1ODA3LnBuZw==/original/RqkaR2.png
-pub-url: https://openreview.net/forum?id=glLqTK9En3&noteId=UUW6dQOmco
+pub-url: https://openreview.net/forum?id=glLqTK9En3
 comments: false
 tag1visible: true
 tag1: GitHub
