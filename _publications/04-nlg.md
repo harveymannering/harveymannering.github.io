@@ -1,5 +1,5 @@
 ---
-title: Mannering, H., Huang, Z., and Prugel-Bennett, A., Noise-Level Diffusion Guidance: Well Begun is Half Done. Preprint 2025.
+title: Mannering, H., Huang, Z., and Prugel-Bennett, A., Noise-Level Diffusion Guidance Well Begun is Half Done. Preprint 2025.
 year: 2025
 excerpt: Simple and efficient noise optimization in diffusion models.
 pub-image: https://img.itch.zone/aW1nLzExNjg1ODA3LnBuZw==/original/RqkaR2.png
