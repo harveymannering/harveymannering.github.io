@@ -1,5 +1,5 @@
 ---
-title: Mannering, H., Huang, Z., and Prugel-Bennett, A., Noise-Level Diffusion Guidance: Well Begun is Half Done.
+title: Smith, D., Mannering, H. and Marcu, A., Functional Alignment Can Mislead Examining Model Stitching. In Forty-second International Conference on Machine Learning (ICML 2025 Spotlight).
 year: 2025
 excerpt: Informational similarity must be accounted for when comparing models; model stitching does not do this.
 pub-image: https://img.itch.zone/aW1nLzExNjg1ODA3LnBuZw==/original/RqkaR2.png
