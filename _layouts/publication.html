@@ -3,8 +3,9 @@ layout: default
 ---
 
 <h2 class="ap-publication-title-single">{{page.title}}</h2>
-<p class="ap-publication-timestamp-single">{{page.year}}</p>
-<img class="ap-publication-featured-single" src="{{page.pub-image}}"/>
+<p class="ap-publication-authors">{{page.authors | replace: "Mannering, H.", "<strong>Mannering, H.</strong>"}}</p>
+<p class="ap-publication-timestamp-single">{% if page.venue-full %}{{page.venue-full}}{% else %}{{page.year}}{% endif %}</p>
+{% if page.pub-image %}<img class="ap-publication-featured-single" src="{{page.pub-image}}"/>{% endif %}
 {% if page.pub-url %}
 <br>
 <p class="ap-publication-url-single">URL: <a href="{{page.pub-url}}" target="_blank">{{page.pub-url}}</a></p>

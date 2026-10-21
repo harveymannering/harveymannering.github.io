@@ -29,25 +29,32 @@ float: left;
 
 .ap-container {
     width: 90%;
-    max-width: 600px;
+    max-width: 680px;
     margin: 0 auto;
     margin-top: 64px;
 }
 
+body {
+    background-color: #fff;
+    -webkit-font-smoothing: antialiased;
+}
+
 .ap-avater {
-    height: 100px;
-    width: 100px;
-    border-radius: 24px;
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .ap-title {
     font-family: "Syne", serif;
-    font-weight: 600;
-    font-size: 30px;
+    font-weight: 700;
+    font-size: 34px;
     letter-spacing: -1px;
     line-height: 1.2em;
-    margin-top: 12px;
-    margin-bottom: 0px;
+    margin-top: 16px;
+    margin-bottom: 4px;
 }
 
 .ap-tagline {
@@ -77,6 +84,14 @@ float: left;
 
 
 
+.ap-nav ul li a {
+    color: #777;
+}
+
+.ap-nav ul li a:hover {
+    color: $link;
+}
+
 .ap-nav ul li .ap-active {
     text-decoration: none;
     cursor: default;
@@ -86,7 +101,7 @@ float: left;
 .ap-line {
     height: 1px;
     margin: 36px 0;
-    background-color: #eee;
+    background: linear-gradient(to right, #e6e6e6, #e6e6e6 60%, rgba(230, 230, 230, 0));
 }
 
 .ap-content {
@@ -112,10 +127,12 @@ float: left;
 
 .ap-subtitle {
     font-family: "DM Sans", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    color: #555555;
-
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 16px;
 }
 
 .ap-experience {
@@ -228,34 +245,99 @@ float: left;
     margin: 6px 0px;
 }
 
+.ap-project-tags {
+    margin-top: 10px;
+}
+
+.ap-project-tags a:hover {
+    text-decoration: none;
+}
+
 .ap-project-tags .ap-project-chip {
-    border: 1px solid #8f8f8f;
-    border-radius: 5px;
-    padding: 2px 4px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: #333;
+    border: 1px solid #d9dee5;
+    border-radius: 999px;
+    padding: 6px 12px;
+    margin-right: 4px;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.ap-project-tags .ap-project-chip:hover {
+    color: $link;
+    border-color: $link;
 }
 
 .ap-publication {
-    margin: 16px 0px;
+    margin: 0 -16px 12px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.ap-publication-chip {
-    border: 1px solid #8f8f8f;
-    border-radius: 5px;
-    padding: 2px 4px;
-    font-size: 14px;
+.ap-publication:hover {
+    background-color: #f7fafd;
+    border-color: #e8eef5;
+}
+
+.ap-publication-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1.6em;
+}
+
+.ap-publication-venue {
+    color: #fff;
+    background-color: $link;
+    border-radius: 999px;
+    padding: 1px 10px;
+}
+
+.ap-publication-highlight {
+    color: #b45309;
+    background-color: #fef3c7;
+    border-radius: 999px;
+    padding: 1px 10px;
 }
 
 .ap-publication-title {
+    display: block;
     font-family: "DM Sans", sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #000 !important;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.35em;
+    color: #111 !important;
     text-decoration: none;
 }
 
 .ap-publication-title:hover {
-    text-decoration: underline;
+    text-decoration: none !important;
     color: $link !important;
+}
+
+.ap-publication-authors {
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #6b6b6b;
+    line-height: 1.4em;
+    margin: 4px 0px 8px;
+}
+
+.ap-publication-authors strong {
+    color: #222;
+    font-weight: 600;
 }
 
 .ap-publication-year {
@@ -269,8 +351,48 @@ float: left;
 .ap-publication-excerpt {
     font-family: "DM Sans", sans-serif;
     font-weight: 400;
-    line-height: 1.3em;
-    font-size: 16px;
+    line-height: 1.45em;
+    font-size: 15px;
+    color: #444;
+}
+
+.ap-publication-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.ap-content a.ap-publication-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #d9dee5;
+    border-radius: 999px;
+    padding: 6px 12px;
+    transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ap-content a.ap-publication-chip:hover {
+    text-decoration: none;
+    color: $link;
+    border-color: $link;
+    box-shadow: 0 2px 8px rgba(0, 153, 255, 0.15);
+}
+
+.ap-publication-chip svg {
+    width: 13px;
+    height: 13px;
+}
+
+.ap-chip-emoji {
+    font-size: 13px;
 }
 
 .ap-certification {
