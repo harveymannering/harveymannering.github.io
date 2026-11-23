@@ -12,4 +12,6 @@ links:
     url: https://arxiv.org/abs/2610.16892
   - name: GitHub
     url: https://github.com/harveymannering/BarycentricGuidance
+  - name: Project Page
+    url: https://harveymannering.github.io/BarycentricGuidance/
 ---

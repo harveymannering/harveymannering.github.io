@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barycentric Guidance</title>
+  <meta name="description" content="Barycentric Guidance: a training-free framework that turns pretrained foundation image editors into continuous valence–arousal controllers. NeurIPS 2026.">
+  <meta property="og:title" content="Barycentric Guidance: Turning Foundation Image Editors into Continuous Affective Controllers">
+  <meta property="og:description" content="Training-free, continuous valence–arousal control for foundation image editors. NeurIPS 2026.">
+  <meta property="og:image" content="static/images/grid_faces.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+          onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '\\(', right: '\\)', display: false}]});"></script>
+
+  <style>
+    :root {
+      --blue: #005C84;
+      --blue-dark: #00445f;
+      --tint: #E5F2F8;
+      --ink: #1A1A1A;
+      --muted: #5A6670;
+      --line: #DDE3E8;
+      --surface: #F6F8FA;
+      --bg: #FFFFFF;
+      --serif: "Source Serif 4", Georgia, serif;
+      --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.65 var(--sans);
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--blue); }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+    .narrow { max-width: 820px; margin: 0 auto; }
+
+    /* ---------- Header ---------- */
+    header.hero { padding: 56px 0 28px; text-align: center; }
+    .venue {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 7px 16px 7px 8px;
+      border: 1px solid var(--blue); border-radius: 999px;
+      color: var(--blue); font-weight: 600; font-size: 14px; letter-spacing: .02em;
+      background: var(--tint);
+    }
+    .venue .tag {
+      background: var(--blue); color: #fff; border-radius: 999px;
+      padding: 3px 10px; font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+    }
+    h1 {
+      font-family: var(--serif); font-weight: 700;
+      font-size: clamp(30px, 5vw, 48px); line-height: 1.15;
+      margin: 22px auto 0; max-width: 900px; letter-spacing: -0.01em;
+    }
+    h1 .accent { color: var(--blue); }
+    .authors { margin-top: 20px; font-size: 19px; }
+    .authors a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .authors a:hover { border-color: var(--blue); color: var(--blue); }
+    .authors .sep { color: var(--muted); margin: 0 .5em; }
+    .affil { color: var(--muted); margin-top: 4px; font-size: 16px; }
+
+    .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 26px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--ink); color: #fff; text-decoration: none;
+      padding: 10px 20px; border-radius: 999px; font-weight: 500; font-size: 15px;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .btn:hover { background: var(--blue); transform: translateY(-1px); }
+    .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+    /* ---------- Teaser ---------- */
+    .teaser { margin-top: 36px; }
+    .teaser-grid { display: grid; gap: 14px; }
+    .teaser-row { display: grid; gap: 14px; }
+    .teaser-row.three { grid-template-columns: repeat(3, 1fr); }
+    .teaser-row.two { grid-template-columns: repeat(2, 1fr); }
+    figure { margin: 0; }
+    .panel img { border-radius: 8px; }
+    .panel figcaption {
+      text-align: center; font-size: 14px; font-weight: 600; color: var(--blue);
+      margin-top: 6px; letter-spacing: .01em;
+    }
+    .caption { color: var(--muted); font-size: 15px; margin-top: 14px; text-align: center; }
+
+    /* ---------- Sections ---------- */
+    section { padding: 48px 0 8px; }
+    h2 {
+      font-family: var(--serif); font-weight: 700; font-size: 30px;
+      margin: 0 0 18px; text-align: center;
+    }
+    h3 { font-family: var(--serif); font-size: 21px; margin: 28px 0 8px; color: var(--blue); }
+    .abstract p { text-align: justify; hyphens: auto; }
+    hr.div { border: 0; border-top: 1px solid var(--line); margin: 40px 0 0; }
+
+    /* Method */
+    .method { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; }
+    .method figure img { border: 1px solid var(--line); border-radius: 10px; }
+    .steps { list-style: none; padding: 0; margin: 0; counter-reset: s; }
+    .steps li { position: relative; padding-left: 44px; margin-bottom: 18px; }
+    .steps li::before {
+      counter-increment: s; content: counter(s);
+      position: absolute; left: 0; top: 1px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--blue); color: #fff; font-weight: 600; font-size: 15px;
+      display: grid; place-items: center;
+    }
+    .steps b { display: block; }
+    .eq { overflow-x: auto; margin: 6px 0; }
+    .callout {
+      background: var(--tint); border-left: 5px solid var(--blue);
+      border-radius: 8px; padding: 14px 18px; margin-top: 26px;
+    }
+    .callout b { color: var(--blue); }
+
+    /* Results */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 8px 0 26px; }
+    .stat { background: var(--tint); border-radius: 12px; padding: 16px 12px; text-align: center; }
+    .stat .num { font-family: var(--serif); font-weight: 700; font-size: 32px; color: var(--blue); line-height: 1.1; }
+    .stat .lbl { font-size: 14px; color: var(--ink); margin-top: 4px; }
+    .stats-note { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 6px; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+    th, td { padding: 8px 10px; text-align: center; white-space: nowrap; }
+    thead th { background: var(--surface); font-weight: 600; border-bottom: 1px solid var(--line); }
+    thead tr.group th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding-bottom: 2px; }
+    thead tr.group th.va { color: var(--blue); }
+    thead th:nth-child(-n+2), td.dsname, td.m { text-align: left; }
+    tbody tr.ds td { border-top: 1px solid var(--line); }
+    tbody td.dsname { font-weight: 600; vertical-align: middle; }
+    tr.ours td:not(.dsname) { background: var(--tint); }
+    td.b { font-weight: 700; }
+    .vsplit { border-left: 1px solid var(--line); }
+    .table-caption { color: var(--muted); font-size: 14px; margin-top: 10px; }
+
+    .strip { margin-top: 30px; }
+    .strip figcaption { font-size: 14px; font-weight: 600; color: var(--blue); margin-bottom: 6px; }
+    .strip img { border-radius: 6px; }
+
+    /* Citation */
+    .bib { position: relative; }
+    pre {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+      padding: 18px 20px; margin: 0; overflow-x: auto;
+      font: 13.5px/1.6 var(--mono); color: var(--ink);
+    }
+    .copy {
+      position: absolute; top: 10px; right: 10px;
+      font: 500 13px var(--sans); background: #fff; color: var(--ink);
+      border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer;
+    }
+    .copy:hover { border-color: var(--blue); color: var(--blue); }
+
+    footer { color: var(--muted); font-size: 14px; text-align: center; padding: 48px 0 40px; }
+
+    @media (max-width: 760px) {
+      body { font-size: 16px; }
+      header.hero { padding-top: 36px; }
+      .teaser-row.three { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .teaser-row.two { gap: 8px; }
+      .teaser-grid { gap: 8px; }
+      .panel figcaption { font-size: 12px; }
+      .method { grid-template-columns: 1fr; gap: 20px; }
+      .stats { grid-template-columns: 1fr; }
+      .authors { font-size: 17px; }
+      .abstract p { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <span class="venue"><span class="tag">Accepted</span>NeurIPS 2026</span>
+  <h1><span class="accent">Barycentric Guidance:</span> Turning Foundation Image Editors into Continuous Affective Controllers</h1>
+  <div class="authors">
+    <a href="https://harveymannering.github.io/">Harvey Mannering</a><span class="sep">·</span>Zhiwu Huang<span class="sep">·</span>Adam Prügel-Bennett
+  </div>
+  <div class="affil">University of Southampton</div>
+
+  <div class="buttons">
+    <a class="btn" href="https://arxiv.org/pdf/2610.16892">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h8v2H8v-2z"/></svg>
+      Paper
+    </a>
+    <a class="btn" href="https://arxiv.org/abs/2610.16892">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 15-5-5 1.4-1.4L11 14.2l5.6-5.6L18 10l-7 7z"/></svg>
+      arXiv
+    </a>
+    <a class="btn" href="https://github.com/harveymannering/BarycentricGuidance">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.82 1.19 3.08 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+      Code
+    </a>
+  </div>
+
+  <figure class="teaser">
+    <div class="teaser-grid">
+      <div class="teaser-row three">
+        <figure class="panel"><img src="static/images/va_model.png" width="900" height="900" alt="The valence-arousal model of emotion with emotion words placed on a circle"><figcaption>Valence–Arousal Model</figcaption></figure>
+        <figure class="panel"><img src="static/images/grid_manga.jpg" width="900" height="900" alt="3x3 valence-arousal grid of edits to a manga face"><figcaption>Manga Faces</figcaption></figure>
+        <figure class="panel"><img src="static/images/grid_cat.jpg" width="900" height="900" alt="3x3 valence-arousal grid of edits to a cat's face"><figcaption>Animal Faces</figcaption></figure>
+      </div>
+      <div class="teaser-row two">
+        <figure class="panel"><img src="static/images/grid_faces.jpg" width="1400" height="1400" alt="5x5 valence-arousal grid of edits to a human face"><figcaption>Human Faces</figcaption></figure>
+        <figure class="panel"><img src="static/images/grid_artworks.jpg" width="1400" height="1400" alt="3x3 valence-arousal grid of edits to a painting"><figcaption>Artworks</figcaption></figure>
+      </div>
+    </div>
+    <figcaption class="caption">Continuous valence–arousal editing with a single training-free framework. Valence increases left to right and arousal bottom to top, with values from −1 to 1 in uniform steps.</figcaption>
+  </figure>
+</header>
+
+<main class="wrap">
+
+  <section class="abstract narrow" id="abstract">
+    <h2>Abstract</h2>
+    <p>Emotions are expressed on a continuum and are naturally described in the valence–arousal (VA) space. Existing VA-based image editors are typically training-based and domain-specific, limiting them to VA regions seen during training and making them brittle across datasets and domains. Meanwhile, despite producing high-quality edits, state-of-the-art foundation image editors are not continuous affective controllers: non-linear emotion representations in text encoders makes prompt interpolation poorly calibrated, so accurate and continuous VA control remains unreliable. To fill this gap, we introduce <b>Barycentric Guidance</b>, a training-free framework that turns pretrained foundation image editors into continuous affective controllers over VA, requiring no finetuning, extra data, or model changes. Our method maps any target VA point to simplex-based guidance weights, enabling VA controllability in three aspects: (i) accurate targeting of VA states, (ii) broad coverage across the VA plane, and (iii) continuous control. Across three face datasets, we improve VA target accuracy by 25–29%, expand VA-plane coverage by 28–50%, and increase expression diversity by 29–49%, over the strongest baseline. Unlike prior domain-specific methods, our training-free approach exploits the foundation model's inherent versatility, enabling generalization beyond human faces to animals, artworks, and complex scenes within a single framework.</p>
+  </section>
+
+  <hr class="div">
+
+  <section id="method">
+    <h2>Method</h2>
+    <div class="method">
+      <figure>
+        <img src="static/images/mesh.png" width="943" height="943" loading="lazy" alt="Triangle mesh of discrete emotions over the valence-arousal plane, with a target point inside the sad-neutral-sleeping triangle and its barycentric weights">
+      </figure>
+      <div>
+        <ol class="steps">
+          <li><b>Build an emotion mesh.</b>Foundation editors excel at <em>discrete</em> edits, so discrete emotion anchors (happy, sad, angry, …) are placed at their VA positions and joined into a triangle mesh.</li>
+          <li><b>Find barycentric weights.</b>For a target \((v, a)\), take the enclosing triangle \(A, B, C\) (or the closest one) and solve
+            <div class="eq">$$\begin{bmatrix} A_x & B_x & C_x \\ A_y & B_y & C_y \\ 1 & 1 & 1 \end{bmatrix}\begin{bmatrix} w_1 \\ w_2 \\ w_3 \end{bmatrix} = \begin{bmatrix} v \\ a \\ 1 \end{bmatrix}$$</div>
+          </li>
+          <li><b>Combine guidance, not prompts.</b>Interpolating prompt embeddings gives sudden, uneven edits. Instead, the weights mix the editor's noise predictions for each emotion prompt \(y_i\):
+            <div class="eq">$$D^{\text{edit}}_{\text{bary}}(x_t) = \sum_{i=1}^{3} w_i\, D_\theta(x_t, y_i)$$</div>
+            Scaling the CFG weight with distance from neutral, \(w^{*}_{\text{cfg}} = 1 + (w_{\text{cfg}} - 1)\sqrt{v^2 + a^2}\), controls emotional intensity.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="callout narrow">
+      <b>Optional: geometry-aware latent interpolation.</b> For faces, the three discrete-emotion edits are morphed together using the same weights \(w_i\), and diffusion restarts from the morph a third of the way through. This keeps facial geometry smooth and removes ghosting. For non-human faces, optical flow replaces landmarks.
+    </div>
+  </section>
+
+  <hr class="div">
+
+  <section id="results">
+    <h2>Results</h2>
+    <p class="narrow" style="text-align:center">On facial expression editing, Barycentric Guidance outperforms prior VA-based editors on AffectNet, FFHQ and CelebA-HQ.</p>
+
+    <div class="stats-note">vs. the strongest baseline</div>
+    <div class="stats">
+      <div class="stat"><div class="num">25–29%</div><div class="lbl">lower VA error</div></div>
+      <div class="stat"><div class="num">28–50%</div><div class="lbl">wider VA coverage</div></div>
+      <div class="stat"><div class="num">29–49%</div><div class="lbl">more diverse expressions</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr class="group">
+            <th></th><th></th>
+            <th class="va" colspan="4">VA Controllability</th>
+            <th class="vsplit" colspan="4">Image Quality / Preservation</th>
+          </tr>
+          <tr>
+            <th>Dataset</th><th>Model</th>
+            <th>RMSE ↓</th><th>VA Entropy ↑</th><th>VA Std ↑</th><th>\(S^{*}_{2D}\) ↓</th>
+            <th class="vsplit">FID ↓</th><th>IS ↑</th><th>ID Sim. ↑</th><th>LPIPS ↓</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ds"><td class="dsname" rowspan="3">AffectNet</td><td class="m">GANmut</td><td>–</td><td>0.616</td><td>0.47 / 0.38</td><td>–</td><td class="vsplit">36.89</td><td>3.90</td><td class="b">0.76</td><td>0.128</td></tr>
+          <tr><td class="m">EmoStyle</td><td>0.610</td><td>0.423</td><td>0.46 / 0.31</td><td class="b">0.147</td><td class="vsplit">36.72</td><td>2.81</td><td>0.31</td><td>0.276</td></tr>
+          <tr class="ours"><td class="m"><b>Ours</b></td><td class="b">0.433</td><td class="b">0.916</td><td class="b">0.64 / 0.57</td><td>0.303</td><td class="vsplit b">11.02</td><td class="b">4.42</td><td>0.55</td><td class="b">0.096</td></tr>
+
+          <tr class="ds"><td class="dsname" rowspan="3">FFHQ</td><td class="m">GANmut</td><td>–</td><td>0.687</td><td>0.50 / 0.36</td><td>–</td><td class="vsplit">73.20</td><td>4.49</td><td class="b">0.71</td><td>0.282</td></tr>
+          <tr><td class="m">EmoStyle</td><td>0.568</td><td>0.457</td><td>0.48 / 0.32</td><td class="b">0.148</td><td class="vsplit">25.50</td><td>4.12</td><td>0.67</td><td>0.172</td></tr>
+          <tr class="ours"><td class="m"><b>Ours</b></td><td class="b">0.418</td><td class="b">0.890</td><td class="b">0.64 / 0.51</td><td>0.307</td><td class="vsplit b">13.85</td><td class="b">5.61</td><td>0.55</td><td class="b">0.097</td></tr>
+
+          <tr class="ds"><td class="dsname" rowspan="3">CelebA-HQ</td><td class="m">GANmut</td><td>–</td><td>0.651</td><td>0.48 / 0.37</td><td>–</td><td class="vsplit">59.59</td><td>3.24</td><td class="b">0.70</td><td>0.267</td></tr>
+          <tr><td class="m">EmoStyle</td><td>0.550</td><td>0.513</td><td>0.47 / 0.34</td><td class="b">0.149</td><td class="vsplit">17.44</td><td>2.94</td><td>0.65</td><td>0.154</td></tr>
+          <tr class="ours"><td class="m"><b>Ours</b></td><td class="b">0.412</td><td class="b">0.877</td><td class="b">0.65 / 0.54</td><td>0.293</td><td class="vsplit b">11.80</td><td class="b">3.53</td><td>0.54</td><td class="b">0.125</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="table-caption">VA controllability and image quality on three face datasets. VA Std is reported as valence / arousal. Best results per dataset in bold.</p>
+
+    <figure class="strip">
+      <figcaption>AffectNet</figcaption>
+      <img src="static/images/compare_affectnet.jpg" width="2200" height="513" loading="lazy" alt="Comparison of GANmut, EmoStyle and our method editing an AffectNet face around the edge of the valence-arousal circle">
+    </figure>
+    <figure class="strip">
+      <figcaption>FFHQ</figcaption>
+      <img src="static/images/compare_ffhq.jpg" width="2200" height="513" loading="lazy" alt="Comparison of GANmut, EmoStyle and our method editing an FFHQ face around the edge of the valence-arousal circle">
+    </figure>
+    <p class="caption">Edits around the edge of the VA circle (labels are target (valence, arousal)). Ours preserves backgrounds better and covers extreme expressions, especially <em>sleepy</em> and the negative, high-arousal quadrant.</p>
+  </section>
+
+  <hr class="div">
+
+  <section id="citation" class="narrow">
+    <h2>Citation</h2>
+    <div class="bib">
+      <button class="copy" type="button" onclick="copyBib(this)">Copy</button>
+<pre id="bibtex">@inproceedings{mannering2026barycentric,
+  title     = {Barycentric Guidance: Turning Foundation Image Editors
+               into Continuous Affective Controllers},
+  author    = {Mannering, Harvey and Huang, Zhiwu and Pr{\"u}gel-Bennett, Adam},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026}
+}</pre>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  University of Southampton · <a href="https://harveymannering.github.io/">harveymannering.github.io</a>
+</footer>
+
+<script>
+  function copyBib(btn) {
+    const text = document.getElementById('bibtex').innerText;
+    const done = () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1500); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done).catch(() => {});
+  }
+</script>
+</body>
+</html>
