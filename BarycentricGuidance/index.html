@@ -237,7 +237,7 @@
           <li><b>Find barycentric weights.</b>For a target \((v, a)\), take the enclosing triangle \(A, B, C\) (or the closest one) and solve
             <div class="eq">$$\begin{bmatrix} A_x & B_x & C_x \\ A_y & B_y & C_y \\ 1 & 1 & 1 \end{bmatrix}\begin{bmatrix} w_1 \\ w_2 \\ w_3 \end{bmatrix} = \begin{bmatrix} v \\ a \\ 1 \end{bmatrix}$$</div>
           </li>
-          <li><b>Combine guidance, not prompts.</b>Interpolating prompt embeddings gives sudden, uneven edits. Instead, the weights mix the editor's noise predictions for each emotion prompt \(y_i\):
+          <li><b>Diffusion Guidance.</b>The weights mix the editor's noise predictions for each emotion prompt \(y_i\):
             <div class="eq">$$D^{\text{edit}}_{\text{bary}}(x_t) = \sum_{i=1}^{3} w_i\, D_\theta(x_t, y_i)$$</div>
             Scaling the CFG weight with distance from neutral, \(w^{*}_{\text{cfg}} = 1 + (w_{\text{cfg}} - 1)\sqrt{v^2 + a^2}\), controls emotional intensity.</li>
         </ol>
