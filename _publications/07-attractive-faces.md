@@ -12,4 +12,6 @@ links:
     url: https://arxiv.org/abs/2610.28195
   - name: Dataset
     url: https://huggingface.co/datasets/harveymannering/t2i-faces
+  - name: Project Page
+    url: https://harveymannering.github.io/AttractiveFaces/
 ---
